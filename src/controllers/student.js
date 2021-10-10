@@ -18,12 +18,18 @@ exports.addStudent = async (req, res) => {
         grade,
         section
     });
-    try {
-        await newStudent.save();
-        res.status(200).json(newStudent);
-    } catch (error) {
-        res.status(409).json(error.message);
-    }
+    
+        try {
+            if (grade > 10) {
+                return res.status(400).json({error: 'Invalid Grade'});
+            } else {
+                await newStudent.save();
+                res.status(200).json(newStudent);
+            }
+        } catch (error) {
+            res.status(409).json(error.message);
+        }
+    
 }
 
 exports.deleteStudent = async (req, res) => {
